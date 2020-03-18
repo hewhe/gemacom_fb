@@ -1,24 +1,25 @@
 # README
+# <アプリ名>
+Gamersこみゅ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## サイト概要
+ゲーム掲示板コミュニティーサイト
 
-Things you may want to cover:
+### サイトテーマ
+ゲームに関する（攻略や雑談、遊び仲間）投稿がすることができ、タスク管理もできるサイト
 
-* Ruby version
+### テーマを選んだ理由
+スカイプちゃんねるやLobiなどの遊び仲間を募集するサイトやゲーム掲示板サイトはあるが、どちらも一緒になっているサイトを作りたいというのと
+ゲームのタスク管理もそのサイトで行うことができるようなサイトが欲しいと感じたからです
 
-* System dependencies
+### ターゲットユーザ
+主にネットでゲームの遊び仲間を探している人や攻略情報等を見にきたり雑談したいユーザー
 
-* Configuration
+### 主な利用シーン
+募集や投稿をしながらゲームをしている時にそのゲームのタスクを書きたい時に利用する
+ゲームに関する投稿などをしたい時に利用する
 
-* Database creation
+## 設計書
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### 機能一覧
+<https://docs.google.com/spreadsheets/d/1xp7wGb1wDNlYnysh1SrSXbmMfCZdj4C6sWXVpuBSTHc/edit#gid=0>
