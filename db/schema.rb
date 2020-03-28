@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_064815) do
+ActiveRecord::Schema.define(version: 2020_03_28_101621) do
 
   create_table "board_images", force: :cascade do |t|
     t.integer "group_board_id", null: false
@@ -73,14 +73,12 @@ ActiveRecord::Schema.define(version: 2020_03_28_064815) do
   end
 
   create_table "invites", force: :cascade do |t|
-    t.integer "user_id", null: false
     t.integer "invite_category_id", null: false
     t.string "title", null: false
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invite_category_id"], name: "index_invites_on_invite_category_id"
-    t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
