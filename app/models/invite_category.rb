@@ -1,0 +1,2 @@
+class InviteCategory < ApplicationRecord
+end
