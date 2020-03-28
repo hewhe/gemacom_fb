@@ -1,0 +1,2 @@
+class GroupBoard < ApplicationRecord
+end
