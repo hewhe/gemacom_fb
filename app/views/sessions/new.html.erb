@@ -1,2 +1,15 @@
-<h1>Sessions#new</h1>
-<p>Find me in app/views/sessions/new.html.erb</p>
+<%= form_with(scope: :session, url: login_path, method: :POST, local: true) do |f| %>
+    <div>
+        <%= f.label(:name, "名前") %>
+        <%= f.text_field(:name, value: @name) %>
+    </div>
+
+    <div>
+        <%= f.label(:password, "パスワード") %>
+        <%= f.password_field(:password) %>
+    </div>
+
+	<%= f.submit "ログイン" %>
+<% end %>
+
+<%= link_to "新規登録はこちら", new_user_path %>
