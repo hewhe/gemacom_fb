@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get "/groups/top" => "groups#top"
   get "/groups/:id/info" => "groups#info"
 
-  resources :tasks, only: [:create, :update, :estroy]
+  resources :tasks, only: [:index, :new, :create, :update, :estroy]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
