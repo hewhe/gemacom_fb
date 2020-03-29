@@ -1,6 +1,25 @@
+<%# キーワード検索機能 %>
+<div>
+	<%= form_with(scope: :search, url: invites_path, method: :GET, local: true) do |f| %>
+		<%= f.text_field(:word) %>
+		<%= f.submit("検索") %>
+	<% end %>
+</div>
+
+<%# カテゴリー検索 %>
+<div>
+	<p>カテゴリー一覧</p>
+	<% @invite_categories.each do |category| %>
+		<%= link_to("#{category.name}", invites_path(invite_category_id: category.id)) %>
+	<% end %>
+</div>
+-------------------
+
+<%# 投稿一覧 %>
 <div>
 	<% @invites.each do |invite| %>
 		<div>
+			<%= invite.invite_category_id %>
             <%= invite.title %><br>
             <%= invite.content %>
 		</div>
