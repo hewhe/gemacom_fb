@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create, :show, :edit, :update]
 
   resources :invites, only: [:index, :new, :create, :edit, :update, :destroy]
+  # get "/invites/serch" => "invites#search", as: "invite_search"
 
   resources :groups, only: [:index, :new, :create, :show, :edit, :update] do
     resources :joins, only: [:create, :destroy]
