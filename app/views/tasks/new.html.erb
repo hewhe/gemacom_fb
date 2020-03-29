@@ -1,0 +1,4 @@
+<%= form_with(model: @task, local: true) do |f| %>
+    <%= f.text_area(:content, value: @task.content) %>
+    <%= f.submit("追加") %>
+<% end %>
