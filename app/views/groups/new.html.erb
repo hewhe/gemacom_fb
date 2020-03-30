@@ -1,0 +1,27 @@
+groups#new
+
+<div>
+    <%= form_with(model: @group, local: true) do |f| %>
+        <div>
+            <%= f.label(:name, "グループ名") %>
+            <%= f.text_field(:name, value: @group.name) %>
+        </div>
+
+        <div>
+            <%= f.label(:image, "グループアイコン") %>
+            <%= f.attachment_field(:image) %>
+        </div>
+
+        <div>
+            <%= f.label(:profile, "グループ説明(*後から入力可能)") %>
+            <%= f.text_area(:profile, value: @group.profile) %>
+        </div>
+
+        <div>
+            <%= f.label(:group_category_id, "グループカテゴリーを選択してください") %>
+            <%= f.collection_select(:group_category_id, GroupCategory.all, :id, :name) %>
+        </div>
+
+        <%= f.submit("グループを作成") %>
+    <% end %>
+</div>

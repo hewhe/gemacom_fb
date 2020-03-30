@@ -12,6 +12,12 @@ Rails.application.routes.draw do
   # get "/invites/serch" => "invites#search", as: "invite_search"
 
   resources :groups, only: [:index, :new, :create, :show, :edit, :update] do
+    collection do
+      get :top
+    end
+    member do
+      get :info
+    end
     resources :joins, only: [:create, :destroy]
     resources :boards, only: [:new, :create, :edit, :update, :destroy] do
       resources :comments, only: [:create, :destroy]
