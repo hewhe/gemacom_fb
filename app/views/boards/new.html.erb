@@ -1,0 +1,8 @@
+<div>
+    <%= form_with(model: @board, local:true) do |f| %>
+        <%= f.label(:content, "内容") %>
+        <%= f.text_area(:content, value: @board.content) %>
+        <%= f.hidden_field(:flag, value: "雑談") %>
+        <%= f.submit("投稿する") %>
+    <% end %>
+</div>

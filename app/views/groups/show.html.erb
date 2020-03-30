@@ -1,0 +1,9 @@
+グループ投稿一覧
+<div>
+    <% @board.each do |board| %>
+        <div>
+            <%= User.find_by(id: board.user_id).name %>
+            <%= board.content %>
+        </div>
+    <% end %>
+</div>
