@@ -1,7 +1,10 @@
 group#member
 
 <div>
-    <% if Member.find_by(user_id: @current_user.id, group_id: @group.id).present? %>
+    <!--<% current_user ||= User.find_by(id: session[:user_id]) %>-->
+    <!-- <% if Member.find_by(user_id: current_user.id, group_id: @group.id).present? %> -->
+    <!-- わざわざcurrent_user使わなくてもsessionでできる -->
+    <% if Member.find_by(user_id: session[:user_id], group_id: @group.id).present? %>
         <%= link_to("このグループを退会する", "/groups/#{@group.id}/joins", method: :delete) %>
     <% else %>
         <%= link_to("このグループに参加する", "/groups/#{@group.id}/joins", method: :post) %>
@@ -11,9 +14,12 @@ group#member
 <div>
     <% @members.each do |member| %>
         <div>
+            <%= member.id %>
+            <%= member.flag %>
             <% user = User.find_by(id: member.user_id) %>
             <%= attachment_image_tag(user, :image, :fill, 60, 60) %>
             <%= user.name %>
+            <%= user.id %>
             <%= user.profile %>
         </div>
     <% end %>
