@@ -1,0 +1,25 @@
+groups#top
+
+<div>
+    <%= link_to("グループを作成する", "/groups/new") %>
+</div>
+
+<div>
+    <% @groups.each do |group| %>
+        <div>
+            <!-- そのグループに所属しているメンバーの取得 -->
+            <% members = Member.where(group_id: group.id) %>
+            <!-- そのグループの管理者名の取得 -->
+            <% member = Member.find_by(group_id: group.id, flag: "admin") %>
+            <% user = User.find_by(id: member.user_id) %>
+            <%= user.name %>
+
+            <%= group.id %>
+            <!-- カテゴリー名の表示 -->
+            <%= GroupCategory.find_by(id: group.group_category_id).name %>
+            <%= group.name %>
+            <%= group.profile %>
+            <%= attachment_image_tag(group, :image, :fill, 60, 60) %>
+        </div>
+    <% end %>
+</div>
