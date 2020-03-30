@@ -2,7 +2,8 @@
     <%= form_with(model: @board, local:true) do |f| %>
         <%= f.label(:content, "内容") %>
         <%= f.text_area(:content, value: @board.content) %>
-        <%= f.hidden_field(:flag, value: "雑談") %>
+        <!--<%= f.hidden_field(:flag, value: "雑談") %>-->
+        <%= f.select(:flag, [["雑談", 0], ["募集", 1], ["お知らせ", 2]]) %>
         <%= f.submit("投稿する") %>
     <% end %>
 </div>

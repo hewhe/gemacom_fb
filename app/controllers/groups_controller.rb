@@ -20,13 +20,27 @@ class GroupsController < ApplicationController
     end
 
     def member
+        p current_user
         @group = Group.find(params[:id])
         @members = Member.where(group_id: @group.id)
     end
 
     def show
-        group = Group.find(params[:id])
-        @board = GroupBoard.where(group_id: group.id)
+        @group = Group.find(params[:id])
+        #@boards = GroupBoard.where(group_id: group.id)
+        # binding.pry
+        if params[:type].present?
+            case params[:type].to_i
+            when 0
+                @boards = GroupBoard.where(group_id: @group.id, flag: 0)
+            when 1
+                @boards = GroupBoard.where(group_id: @group.id, flag: 1)
+            when 2
+                @boards = GroupBoard.where(group_id: @group.id, flag: 2)
+            end
+        else
+            @boards = GroupBoard.where(group_id: @group.id)
+        end
     end
 
     def info

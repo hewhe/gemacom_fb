@@ -1,9 +1,18 @@
 グループ投稿一覧
+
 <div>
-    <% @board.each do |board| %>
+    <%= link_to("雑談", "/groups/#{@group.id.to_s}?type=0") %><!--クエリパラメーターを使って渡してあげることもできる（あとで調べる）-->
+    <%= link_to("募集", group_path(type: 1)) %>
+    <%= link_to("お知らせ", group_path(type: 2)) %>
+    <!-- path表記両方ともpath()のように引数形式で渡さないとparamsが送られない、普通に~path, type~としてもできないなぜ？ -->
+</div>
+
+<div>
+    <% @boards.each do |board| %>
         <div>
             <%= User.find_by(id: board.user_id).name %>
             <%= board.content %>
+            <%= board.flag %>
         </div>
     <% end %>
-</div>
+</div>　
