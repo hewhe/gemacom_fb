@@ -19,13 +19,18 @@ class GroupsController < ApplicationController
         end
     end
 
-    def index
+    def member
+        @group = Group.find(params[:id])
+        @members = Member.where(group_id: @group.id)
     end
 
     def show
+        group = Group.find(params[:id])
+        @board = GroupBoard.where(group_id: group.id)
     end
 
     def info
+        group = Group.find(params[:id])
     end
 
     def edit
@@ -34,7 +39,7 @@ class GroupsController < ApplicationController
 
     def update
         @group = Group.find(params[:id])
-        if @group.uodate(groupe_params)
+        if @group.update(groupe_params)
             flash[:notice] = "グループを編集しました"
             redirect_to("/groups/new")
         else

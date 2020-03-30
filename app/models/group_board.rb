@@ -5,4 +5,6 @@ class GroupBoard < ApplicationRecord
     has_many :board_images
     has_many :likes
     has_many :bookmarks
+
+    enum flag: [:雑談, :募集, :お知らせ]
 end

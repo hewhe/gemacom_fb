@@ -1,0 +1,20 @@
+group#member
+
+<div>
+    <% if Member.find_by(user_id: @current_user.id, group_id: @group.id).present? %>
+        <%= link_to("このグループを退会する", "/groups/#{@group.id}/joins", method: :delete) %>
+    <% else %>
+        <%= link_to("このグループに参加する", "/groups/#{@group.id}/joins", method: :post) %>
+    <% end %>
+</div>
+
+<div>
+    <% @members.each do |member| %>
+        <div>
+            <% user = User.find_by(id: member.user_id) %>
+            <%= attachment_image_tag(user, :image, :fill, 60, 60) %>
+            <%= user.name %>
+            <%= user.profile %>
+        </div>
+    <% end %>
+</div>
