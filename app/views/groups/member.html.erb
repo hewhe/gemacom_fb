@@ -1,7 +1,7 @@
 group#member
 
 <div>
-    <!--<% current_user ||= User.find_by(id: session[:user_id]) %>-->
+    <!--<% current_user ||= User.find_by(id: session[:user_id]) %>--><!-- なぜここに再定義する必要がありのかはcontrollerの方に書いててviewで使えないから、helperの方に書きましょう -->
     <!-- <% if Member.find_by(user_id: current_user.id, group_id: @group.id).present? %> -->
     <!-- わざわざcurrent_user使わなくてもsessionでできる -->
     <% if Member.find_by(user_id: session[:user_id], group_id: @group.id).present? %>
