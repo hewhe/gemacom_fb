@@ -1,0 +1,58 @@
+グループ投稿一覧
+
+<div>
+    <%= link_to("雑談", "/groups/#{@group.id.to_s}?type=0") %><!--クエリパラメーターを使って渡してあげることもできる（あとで調べる）-->
+    <%= link_to("募集", group_path(type: 1)) %>
+    <%= link_to("お知らせ", group_path(type: 2)) %>
+    <!-- path表記両方ともpath()のように引数形式で渡さないとparamsが送られない、普通に~path, type~としてもできないなぜ？ -->
+</div>
+----------------------
+
+<div>
+    <% @boards.each do |board| %>
+        <div>
+            <%= board.id %>
+            <%= User.find_by(id: board.user_id).name %>
+            <%= board.content %>
+            <%= board.flag %>
+
+            <div>
+                <%# 投稿詳細へ %>
+                <%= link_to("詳細画面へ", group_board_path(group_id: @group.id, id: board.id)) %>
+            </div>
+
+            <div>
+                <%# いいねの表示と処理 %>
+                <% like = Like.where(group_board_id: board.id) %>
+                    いいねの数<%= like.count %>
+                <% if Like.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+                    <%= link_to("いいねを取り消す", "/groups/#{@group.id}/boards/#{board.id}/likes", method: :DELETE) %>
+                <% else %>
+                    <%= link_to("いいねをする", "/groups/#{@group.id}/boards/#{board.id}/likes", method: :POST) %>
+                <% end %>
+            </div>
+
+            <div>
+                <%# ブックマークの表示と処理 %>
+                <% bookmark = Bookmark.where(group_board_id: board.id) %>
+                    ブックマークされた数<%= bookmark.count %>
+                <% if Bookmark.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+                    <%= link_to("ブックマークを取り消す", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :DELETE) %>
+                <% else %>
+                    <%= link_to("ブックマークをする", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :POST) %>
+                <% end %>
+            </div>
+
+            <div>
+                <%# 投稿者本人と管理者が編集と削除ができる %>
+                <%# user = User.find_by(id: board.user_id) %>
+                <%# if session[:user_id] == user.id || Member.where(group_id: @group.id, flag: "admin") %><!--↓のでok-->
+                <% if session[:user_id] == board.user_id or Member.where(group_id: @group.id, flag: "admin") %>
+                    <%= link_to("編集", edit_group_board_path(group_id: @group.id, id: board.id)) %>
+                    <%= link_to("削除", group_board_path(group_id: @group.id, id: board.id), method: :DELETE) %>
+                <% end %>
+            </div>
+            -------------------
+        </div>
+    <% end %>
+</div>　

@@ -1,0 +1,20 @@
+グループ内投稿
+<div>
+    <%= form_with(model: @board, local:true) do |f| %>
+        <div>
+            <%= f.label(:content, "内容") %>
+            <%= f.text_area(:content, value: @board.content) %>
+        </div>
+
+        <!-- 複数のモデルに画像を保存するには？GroupBoardではなくBoardImageに保存したい -->
+        <!-- 多分モデルにrefile特有の記述が必要 -->
+            <%#= f.label(:image, "画像を添付") %>
+            <%#= f.attachment_field(:image) %>
+
+        <div>
+            <!--<%= f.hidden_field(:flag, value: "雑談") %>-->
+            <%= f.select(:flag, [["雑談", 0], ["募集", 1], ["お知らせ", 2]]) %>
+        </div>
+        <%= f.submit("投稿する") %>
+    <% end %>
+</div>

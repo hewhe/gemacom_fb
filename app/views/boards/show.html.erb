@@ -1,0 +1,46 @@
+投稿詳細画面（コメントの表示）
+<div>
+    <%= @group.name %>
+    <%= @board.content %>
+</div>
+
+------------------------
+<%# 投稿に紐つけられたコメント一覧 %>
+<div>
+    <% @comments.each do |comment| %>
+        <div>
+            <%= User.find_by(id: comment.user_id).name %>
+        </div>
+
+        <div>
+            <%= comment.content %>
+        </div>
+
+        <div>
+            <%= link_to("削除する", group_board_comment_path(group_id: @group.id, board_id: @board.id, id: comment.id), method: :DELETE) %>
+        </div>
+        -------------------
+    <% end %>
+</div>
+
+<%# コメント投稿フォーム %>
+<div>
+    <%= form_with(model: @comment, url: group_board_comments_path(@group.id, @board.id), local: true) do |f| %>
+        <div>
+            <%= f.label(:content, "コメント入力") %>
+            <%= f.text_area(:content, value: @comment.content) %>
+        </div>
+
+        <div>
+            <%= f.submit("コメントする") %>
+        </div>
+    <% end %>
+</div>
+
+<%#
+model: [@group, @board, @comment]
+url: {controller: "comments", action: "create"}
+url: group_board_comments_path(group_id: @group.id, board_id: @board.id)
+formに記述するurlの書き方はgroup_board_comments_path(@group.id, @board.id)でlink_toとは違う
+url: "/groups/#{@group.id}/boards/#{@board.id}/comments"
+%>

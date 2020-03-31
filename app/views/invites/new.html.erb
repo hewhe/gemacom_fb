@@ -1,0 +1,38 @@
+<div>
+	<% if @invite.errors.any? %>
+		<% @invite.errors.full_messages.each do |error| %>
+			<%= error %>
+		<% end %>
+	<% end %>
+</div>
+
+<!--募集カテゴリも保存できるようにするなら必要になるかも？
+<div>
+    <%= form_with(model: @invite_category, local: true) do |f| %>
+        <div>
+        </div>
+    <% end %>
+</div>
+-->
+
+<div>
+    <%= form_with(model: @invite, local: true) do |f| %>
+
+        <div>
+            <%= f.label(:title, "タイトル") %>
+            <%= f.text_field(:title, value: @invite.title) %>
+        </div>
+
+        <div>
+            <%= f.label(:content, "内容") %>
+            <%= f.text_area(:content, value: @invite.content) %>
+        </div>
+
+        <div>
+            <%= f.label(:invite_category_id, "カテゴリー") %>
+            <%= f.collection_select(:invite_category_id, InviteCategory.all, :id, :name) %>
+        </div>
+
+        <%= f.submit("投稿する") %>
+    <% end %>
+</div>
