@@ -6,8 +6,16 @@ class JoinsController < ApplicationController
     end
 
     def destroy
-        member = Member.find_by(user_id: current_user.id, group_id: params[:group_id])
-        member.destroy
-        redirect_to("/groups/#{params[:group_id]}")
+        if params[:flag]
+            #管理者が参加者を追放
+            member = Member.find_by(user_id: params[:member_id], group_id: params[:group_id])
+            member.destroy
+            redirect_to("/groups/#{params[:group_id]}")
+        else
+            #自分で退会
+            member = Member.find_by(user_id: current_user.id, group_id: params[:group_id])
+            member.destroy
+            redirect_to("/groups/#{params[:group_id]}")
+        end
     end
 end
