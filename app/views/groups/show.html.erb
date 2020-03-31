@@ -13,6 +13,29 @@
             <%= User.find_by(id: board.user_id).name %>
             <%= board.content %>
             <%= board.flag %>
+
+            <div>
+                <%# いいねの表示と処理 %>
+                <% like = Like.where(group_board_id: board.id) %>
+                    いいねの数<%= like.count %>
+                <% if Like.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+                    <%= link_to("いいねを取り消す", "/groups/#{@group.id}/boards/#{board.id}/likes", method: :DELETE) %>
+                <% else %>
+                    <%= link_to("いいねをする", "/groups/#{@group.id}/boards/#{board.id}/likes", method: :POST) %>
+                <% end %>
+            </div>
+
+            <div>
+                <%# ブックマークの表示と処理 %>
+                <% bookmark = Bookmark.where(group_board_id: board.id) %>
+                    ブックマークされた数<%= bookmark.count %>
+                <% if Bookmark.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+                    <%= link_to("ブックマークを取り消す", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :DELETE) %>
+                <% else %>
+                    <%= link_to("ブックマークをする", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :POST) %>
+                <% end %>
+            </div>
+            -------------------
         </div>
     <% end %>
 </div>　

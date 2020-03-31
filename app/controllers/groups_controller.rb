@@ -1,7 +1,19 @@
 class GroupsController < ApplicationController
     def top
-        #groupの一覧表示画面
-        @groups = Group.all
+        @group_categories = GroupCategory.all
+
+        #カテゴリー検索
+        if params[:group_category_id].present?
+            @groups = Group.where(group_category_id: params[:group_category_id].to_i)
+        else
+            #groupの一覧表示画面
+            @groups = Group.all
+        end
+
+        #キーワード検索
+        if params[:search].present?
+            @groups = Group.where("name like ? or profile like ?", "%#{params[:search][:word]}%", "%#{params[:search][:word]}%")
+        end
     end
 
     def new
