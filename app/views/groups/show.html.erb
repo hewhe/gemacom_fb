@@ -6,13 +6,20 @@
     <%= link_to("お知らせ", group_path(type: 2)) %>
     <!-- path表記両方ともpath()のように引数形式で渡さないとparamsが送られない、普通に~path, type~としてもできないなぜ？ -->
 </div>
+----------------------
 
 <div>
     <% @boards.each do |board| %>
         <div>
+            <%= board.id %>
             <%= User.find_by(id: board.user_id).name %>
             <%= board.content %>
             <%= board.flag %>
+
+            <div>
+                <%# 投稿詳細へ %>
+                <%= link_to("詳細画面へ", group_board_path(group_id: @group.id, id: board.id)) %>
+            </div>
 
             <div>
                 <%# いいねの表示と処理 %>
@@ -33,6 +40,15 @@
                     <%= link_to("ブックマークを取り消す", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :DELETE) %>
                 <% else %>
                     <%= link_to("ブックマークをする", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :POST) %>
+                <% end %>
+            </div>
+
+            <div>
+                <%# 投稿者本人と管理者が編集と削除ができる %>
+                <% User %>
+                <% if session[:user_id] == board.user_id or Member.where(group_id: @group.id, flag: "admin") %>
+                    <%= link_to("編集", edit_group_board_path(group_id: @group.id, id: board.id)) %>
+                    <%= link_to("削除", group_board_path(group_id: @group.id, id: board.id), method: :DELETE) %>
                 <% end %>
             </div>
             -------------------

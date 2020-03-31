@@ -20,6 +20,10 @@ class BoardsController < ApplicationController
         end
     end
 
+    def show
+        @board = GroupBoard.find_by(id: params[:id])
+    end
+
     def edit
         @board = GroupBoard.find_by(id: params[:id])
     end
@@ -36,7 +40,9 @@ class BoardsController < ApplicationController
 
     def destroy
         board = GroupBoard.find_by(id: params[:id])
+        #binding.pry
         board.destroy
+        redirect_to("/groups/#{params[:group_id]}")
     end
 
     private

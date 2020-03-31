@@ -24,7 +24,7 @@ Rails.application.routes.draw do
         delete :destroy
       end
     end
-    resources :boards, only: [:new, :create, :edit, :update, :destroy] do
+    resources :boards, only: [:new, :create, :show, :edit, :update, :destroy] do
       resources :comments, only: [:create, :destroy]
       resources :likes, only: [:create] do
         collection do
