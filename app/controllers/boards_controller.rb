@@ -1,5 +1,6 @@
 class BoardsController < ApplicationController
     def new
+        #グループ内投稿の新規作成フォーム（コメントではない）
         @board = GroupBoard.new
     end
 
@@ -21,7 +22,11 @@ class BoardsController < ApplicationController
     end
 
     def show
-        @board = GroupBoard.find_by(id: params[:id])
+        #グループ内投稿の詳細画面
+        @group = Group.find_by(id: params[:group_id])
+        @board = GroupBoard.find_by(group_id: @group.id)
+        @comments = Comment.where(group_board_id: @board.id)
+        @comment = Comment.new
     end
 
     def edit
