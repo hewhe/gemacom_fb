@@ -10,6 +10,38 @@
   </head>
 
   <body>
+    <header>
+      <%# トップページリンク %>
+      <%= link_to(root_path) do %>
+        トップへ（アイコン）
+        <%= %>
+      <% end %>
+
+      <ul>
+        <%# ログインしているとき %>
+        <% if !session[:user_id].nil? %>
+          <% user = User.find_by(id: session[:user_id]) %>
+          <%# アバウト %>
+          <li><%= link_to("このサイトについて", about_path) %></li>
+          <%# マイページリンク %>
+          <li><%= link_to("#{user.name}", user_path(user.id)) %></li>
+          <%# ログアウト %>
+          <li><%= link_to("ログアウト", logout_path, method: :delete) %></li>
+        <%# ログインしていないとき %>
+        <% else %>
+          <%# アバウト %>
+          <li><%= link_to("このサイトについて", about_path) %></li>
+          <%# 新規登録 %>
+          <li><%= link_to("新規登録", new_user_path) %></li>
+          <%# ログイン %>
+          <li><%= link_to("ログイン", login_path) %></li>
+        <% end %>
+      </ul>
+    </header>
+
     <%= yield %>
+
+    <footer>
+    </footer>
   </body>
 </html>
