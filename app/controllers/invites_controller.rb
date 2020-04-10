@@ -4,12 +4,12 @@ class InvitesController < ApplicationController
         @invite_categories = InviteCategory.all
         if params[:invite_category_id].present?
             invite_category = InviteCategory.find(params[:invite_category_id].to_i)
-            @invites = invite_category.invites
+            @invites = invite_category.invites.order(id: "DESC")
             # binding.pry
             # @invites = Invite.where(invite_category_id: invite_category.id)
         else
             # p 2222
-            @invites = Invite.all
+            @invites = Invite.all.order(id: "DESC")
         end
 
         #キーワード検索の実装
