@@ -1,0 +1,35 @@
+<div>
+	<% if @user.errors.any? %>
+		<% @user.errors.full_messages.each do |error| %>
+			<%= error %>
+		<% end %>
+	<% end %>
+</div>
+
+<div>
+	<%= form_with( model: @user, url: users_path, method: :POST, local: true) do |f| %>
+        <div>
+            <%= f.label(:name, "名前") %>
+            <%= f.text_field(:name, value: @user.name) %>
+        </div>
+
+        <div>
+            <%= f.label(:password, "パスワード") %>
+            <%= f.password_field(:password) %>
+        </div>
+
+        <div>
+            <%= f.label(:password_confirmation, "確認用パスワード") %>
+            <%= f.password_field(:password_confirmation) %>
+        </div>
+
+        <div>
+            <%= f.label(:image, "画像") %>
+            <%= file_field_tag :image %>
+        </div>
+
+        <div>
+            <%= f.submit("更新") %>
+        </div>
+	<% end %>
+</div>
