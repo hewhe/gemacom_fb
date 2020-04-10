@@ -11,6 +11,15 @@
 		</div>
 	<% end %>
 
+	<%# 新規作成リンク %>
+	<div class="row">
+		<div class="col-3 offset-9", style="font-size: 30px;">
+			<%= link_to(new_invite_path) do %>
+				<i class="fab fa-apple-pay"></i>募集する
+			<% end %>
+		</div>
+	</div>
+
 	<%# カテゴリー検索 %>
 	<div class="card", style="margin-bottom: 20px;">
 		<p class="card-header invite-category">#カテゴリー 一覧</p>

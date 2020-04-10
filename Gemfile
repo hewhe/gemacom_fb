@@ -70,6 +70,10 @@ gem "refile-mini_magick"
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 
+#font-Awesome
+gem 'font-awesome-rails'
+
+
 gem 'dotenv-rails'
 group :production do
   gem 'mysql2'
