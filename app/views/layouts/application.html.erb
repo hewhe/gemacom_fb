@@ -11,37 +11,40 @@
 
   <body>
     <header>
-      <%# トップページリンク %>
-      <%= link_to(root_path) do %>
-        トップへ（アイコン）
-        <%= %>
-      <% end %>
+      <nav class="navbar bg-dark p-0">
+          <%# トップページリンク %>
+            <%= link_to(root_path) do %>
+              <%= image_tag("logo.png", size: "200x80") %>
+            <% end %>
 
-      <ul>
-        <%# ログインしているとき %>
-        <% if !session[:user_id].nil? %>
-          <% user = User.find_by(id: session[:user_id]) %>
-          <%# アバウト %>
-          <li><%= link_to("このサイトについて", about_path) %></li>
-          <%# マイページリンク %>
-          <li><%= link_to("#{user.name}", user_path(user.id)) %></li>
-          <%# ログアウト %>
-          <li><%= link_to("ログアウト", logout_path, method: :delete) %></li>
-        <%# ログインしていないとき %>
-        <% else %>
-          <%# アバウト %>
-          <li><%= link_to("このサイトについて", about_path) %></li>
-          <%# 新規登録 %>
-          <li><%= link_to("新規登録", new_user_path) %></li>
-          <%# ログイン %>
-          <li><%= link_to("ログイン", login_path) %></li>
-        <% end %>
-      </ul>
+          <ul class="nav">
+            <%# ログインしているとき %>
+            <% if !session[:user_id].nil? %>
+              <% user = User.find_by(id: session[:user_id]) %>
+              <%# アバウト %>
+              <li class="m-2"><%= link_to("このサイトについて", about_path, style: "color:#fff;") %></li>
+              <%# マイページリンク %>
+              <li class="m-2"><%= link_to("#{user.name}さん", user_path(user.id), style: "color:#fff;") %></li>
+              <%# ログアウト %>
+              <li class="m-2"><%= link_to("ログアウト", logout_path, style: "color:#fff;", method: :delete) %></li>
+            <%# ログインしていないとき %>
+            <% else %>
+              <%# アバウト %>
+              <li class="m-2"><%= link_to("このサイトについて", about_path, style: "color:#fff;") %></li>
+              <%# 新規登録 %>
+              <li class="m-2"><%= link_to("新規登録", new_user_path, style: "color:#fff;") %></li>
+              <%# ログイン %>
+              <li class="m-2"><%= link_to("ログイン", login_path, style: "color:#fff;") %></li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
     </header>
 
     <%= yield %>
 
-    <footer>
+    <footer class="footer">
+      <p class="text-center">©︎Gamersこみゅ</p>
     </footer>
   </body>
 </html>
