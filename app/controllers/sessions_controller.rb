@@ -6,10 +6,10 @@ class SessionsController < ApplicationController
         user = User.find_by(name: params[:session][:name])
         if user && user.authenticate(params[:session][:password])
             session[:user_id] = user.id
-            flash[:notice] = "ログインしました"
+            flash[:success] = "ログインしました"
             redirect_to(root_path)
         else
-            flash.now[:notice] = "名前またはパスワードが間違いです"
+            flash.now[:danger] = "名前またはパスワードが間違いです"
             @name = params[:session][:name]
             render :new
         end
@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
 
     def destroy
         session[:user_id] = nil
-        flash[:notice] = "ログアウトしました"
+        flash[:success] = "ログアウトしました"
         redirect_to(root_path)
     end
 end

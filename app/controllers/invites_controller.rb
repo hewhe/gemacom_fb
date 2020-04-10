@@ -30,7 +30,7 @@ class InvitesController < ApplicationController
         #binding.pry
         @invite = Invite.new(invite_params)
         if @invite.save
-            flash[:notice] = "投稿に成功しました"
+            flash[:success] = "投稿に成功しました"
             redirect_to(invites_path)
         else
             render(:new)

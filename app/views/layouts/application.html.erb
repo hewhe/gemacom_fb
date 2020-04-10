@@ -41,6 +41,12 @@
       </nav>
     </header>
 
+    <%# フラッシュメッセージを取り出してレイアウト %>
+    <% flash.each do |key, value| %>
+        <p class="alert alert-<%= key %>">
+          <%= value %>
+        </p>
+    <% end %>
     <%= yield %>
 
     <footer class="footer">

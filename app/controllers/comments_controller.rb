@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
         @comment.group_board_id = params[:board_id]
 
         if @comment.save
-            flash[:new] = "コメントに成功しました"
+            flash[:success] = "コメントに成功しました"
             redirect_to(group_board_path(params[:group_id], params[:board_id]))
         else
             @group = Group.find_by(id: params[:group_id])
