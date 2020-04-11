@@ -1,58 +1,98 @@
-グループ投稿一覧
-
-<div>
-    <%= link_to("雑談", "/groups/#{@group.id.to_s}?type=0") %><!--クエリパラメーターを使って渡してあげることもできる（あとで調べる）-->
-    <%= link_to("募集", group_path(type: 1)) %>
-    <%= link_to("お知らせ", group_path(type: 2)) %>
-    <!-- path表記両方ともpath()のように引数形式で渡さないとparamsが送られない、普通に~path, type~としてもできないなぜ？ -->
-</div>
-----------------------
-
-<div>
-    <% @boards.each do |board| %>
-        <div>
-            <%= board.id %>
-            <%= User.find_by(id: board.user_id).name %>
-            <%= board.content %>
-            <%= board.flag %>
-
-            <div>
-                <%# 投稿詳細へ %>
-                <%= link_to("詳細画面へ", group_board_path(group_id: @group.id, id: board.id)) %>
-            </div>
-
-            <div>
-                <%# いいねの表示と処理 %>
-                <% like = Like.where(group_board_id: board.id) %>
-                    いいねの数<%= like.count %>
-                <% if Like.where(user_id: session[:user_id], group_board_id: board.id).present? %>
-                    <%= link_to("いいねを取り消す", "/groups/#{@group.id}/boards/#{board.id}/likes", method: :DELETE) %>
-                <% else %>
-                    <%= link_to("いいねをする", "/groups/#{@group.id}/boards/#{board.id}/likes", method: :POST) %>
-                <% end %>
-            </div>
-
-            <div>
-                <%# ブックマークの表示と処理 %>
-                <% bookmark = Bookmark.where(group_board_id: board.id) %>
-                    ブックマークされた数<%= bookmark.count %>
-                <% if Bookmark.where(user_id: session[:user_id], group_board_id: board.id).present? %>
-                    <%= link_to("ブックマークを取り消す", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :DELETE) %>
-                <% else %>
-                    <%= link_to("ブックマークをする", "/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :POST) %>
-                <% end %>
-            </div>
-
-            <div>
-                <%# 投稿者本人と管理者が編集と削除ができる %>
-                <%# user = User.find_by(id: board.user_id) %>
-                <%# if session[:user_id] == user.id || Member.where(group_id: @group.id, flag: "admin") %><!--↓のでok-->
-                <% if session[:user_id] == board.user_id or Member.where(group_id: @group.id, flag: "admin") %>
-                    <%= link_to("編集", edit_group_board_path(group_id: @group.id, id: board.id)) %>
-                    <%= link_to("削除", group_board_path(group_id: @group.id, id: board.id), method: :DELETE) %>
-                <% end %>
-            </div>
-            -------------------
+<div class="container">
+    <div class="row", style="margin: 10px; padding: 5px; border: solid #DDEEFF; border-width: thin; background: linear-gradient(to bottom, #DDEEFF, #FFF);">
+        <div class="col-2">
+            <%= attachment_image_tag(@group, :image, :fill, 100, 100, class: "rounded") %>
         </div>
-    <% end %>
-</div>　
+        <div class="offset-3", style="margin-top: 10px;">
+            <h5><%= "グループ名: #{@group.name}" %></h5>
+            <%= link_to("編集する", edit_group_path(@group.id), class: "btn btn-primary btn-sm") %>
+        </div>
+    </div>
+
+	<%# 新規作成リンク %>
+	<div class="row">
+		<div class="offset-10", style="font-size: 25px;">
+			<%= link_to("投稿を作成する", new_invite_path, class: "btn btn-primary", style: "margin-bottom: 10px;") %>
+		</div>
+	</div>
+
+    <%# タブ %>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <%= link_to("雑談", "/groups/#{@group.id.to_s}?type=0", class: "nav-link") %><!--クエリパラメーターを使って渡してあげることもできる（あとで調べる）-->
+            </li>
+            <li class="nav-item">
+                <%= link_to("募集", group_path(type: 1), class: "nav-link") %>
+            </li>
+            <li class="nav-item">
+                <%= link_to("お知らせ", group_path(type: 2), class: "nav-link") %>
+            </li>
+            <!-- path表記両方ともpath()のように引数形式で渡さないとparamsが送られない、普通に~path, type~としてもできないなぜ？ -->
+        </ul>
+
+
+        <div class="tab-content">
+            <% @boards.each do |board| %>
+                <div class="card", style="margin-top: 5px;">
+                    <%# 投稿タイトル %>
+                    <div class="card-header", style="padding: 5px 20px 5px 20px;">
+                        <% user = User.find_by(id: board.user_id) %>
+                        <%# attachment_image_tag(user, :image, :fill, 30, 30, class: "rounded-circle") %>
+                        <%= user.name %>
+                    </div>
+
+                    <div class="card-body", style="padding: 5px 20px 5px 20px;">
+                        <%# 投稿詳細へ %>
+                        <%= link_to(group_board_path(group_id: @group.id, id: board.id), style: "text-decoration: none; color: black;") do %>
+                                <p class="card-text", style="word-break: break-all;"><%= board.content %></p>
+                        <% end %>
+
+                        <div class="offset-10">
+                            <%# 編集、削除ボタン %>
+                            <%# 投稿者本人と管理者が編集と削除ができる %>
+                            <%# user = User.find_by(id: board.user_id) %>
+                            <%# if session[:user_id] == user.id || Member.where(group_id: @group.id, flag: "admin") %><!--↓のでok-->
+                            <% if session[:user_id] == board.user_id or Member.where(group_id: @group.id, flag: "admin") %>
+                                <%= link_to("編集", edit_group_board_path(group_id: @group.id, id: board.id), class: "card-link") %>
+                                <%= link_to("削除", group_board_path(group_id: @group.id, id: board.id), method: :DELETE, class: "card-link") %>
+                            <% end %>
+                        </div>
+                    </div>
+
+                    <div class="card-footer", style="padding: 5px 20px 5px 20px;">
+                        <div>
+                            <%# いいねの表示と処理 %>
+                            <% like = Like.where(group_board_id: board.id) %>
+                            <% if Like.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+                                <%= link_to("/groups/#{@group.id}/boards/#{board.id}/likes", method: :DELETE, class: "card-link") do %>
+                                    <i class="fas fa-heart", style="font-family: Font Awesome 5 Free;"></i>
+                                <% end %>
+                                <%= like.count %>
+                            <% else %>
+                                <%= link_to("/groups/#{@group.id}/boards/#{board.id}/likes", method: :POST, class: "card-link") do %>
+                                    <i class="far fa-heart", style="font-family: Font Awesome 5 Free;"></i>
+                                <% end %>
+                                <%= like.count %>
+                            <% end %>
+
+                            <%# ブックマークの表示と処理 %>
+                            <% bookmark = Bookmark.where(group_board_id: board.id) %>
+                            <% if Bookmark.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+                                <%= link_to("/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :DELETE, class: "card-link") do %>
+                                    <i class="fas fa-bookmark", style="font-family: Font Awesome 5 Free;"></i>
+                                <% end %>
+                                <%= bookmark.count %>
+                            <% else %>
+                                <%= link_to("/groups/#{@group.id}/boards/#{board.id}/bookmarks", method: :POST, class: "card-link") do %>
+                                    <i class="far fa-bookmark", style="font-family: Font Awesome 5 Free;"></i>
+                                <% end %>
+                                <%= bookmark.count %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>　
+    </div>
+</div>
