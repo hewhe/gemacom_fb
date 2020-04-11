@@ -40,7 +40,7 @@ class BoardsController < ApplicationController
         @board = GroupBoard.find_by(id: params[:id])
         if @board.update(board_params)
             flash[:success] = "投稿を編集しました"
-            redirect_to("/groups/#{params[:group_id]}")
+            redirect_to("/groups/#{params[:group_id]}/boards/#{params[:id]}")
         else
             render(:edit)
         end

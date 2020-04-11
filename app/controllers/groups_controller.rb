@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
     end
 
     def member
-        p current_user
+        # p current_userターミナルに出る
         @group = Group.find(params[:id])
         @members = Member.where(group_id: @group.id)
     end
