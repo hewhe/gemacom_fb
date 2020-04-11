@@ -1,0 +1,52 @@
+<div class="container">
+    <div style="margin-top: 30px;">
+        <%= form_with(model: @group, local: true) do |f| %>
+
+            <div class="row">
+                <% if @group.errors.any? %>
+                    <% @group.errors.full_messages.each do |error| %>
+                        <%= error %>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:name, "グループ名", class: "form-control-label") %>
+                    <%= f.text_field(:name, value: @group.name, class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:image, "グループアイコン", class: "form-control-label") %>
+                    <%= attachment_image_tag(@group, :image, :fill, 100, 100, class: "image", style: "margin-bottom: 5px;") %>
+                    <%= f.attachment_field(:image) %>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-10">
+                    <%= f.label(:profile, "グループ説明(*後から入力可能)", class: "form-control-label") %>
+                    <%= f.text_area(:profile, value: @group.profile, size: "?x5", class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <%= f.label(:group_category_id, "グループカテゴリーを選択してください", class: "form-control-label") %>
+                <%= f.collection_select(:group_category_id, GroupCategory.all, :id, :name, class: "form-control") %>
+            </div>
+
+            <div class="text-right">
+                <%= f.submit("グループの編集を行う", class: "btn btn-primary") %>
+            </div>
+
+        <% end %>
+    </div>
+</div>
+
+<style>
+    .image{
+        border: solid #999999;
+    }
+</style>
