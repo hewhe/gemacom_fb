@@ -25,7 +25,7 @@ class GroupsController < ApplicationController
         if @group.save
             Member.create(user_id: current_user.id, group_id: @group.id, flag: "admin")
             flash[:success] = "グループを作成しました"
-            redirect_to("/groups/new")
+            redirect_to("/groups/top")
         else
             render(:new)
         end

@@ -15,7 +15,7 @@ class InvitesController < ApplicationController
         #キーワード検索の実装
         if params[:search].present?#ここをparams[:search][:word]にするとnilClassになるので注意searchがないとwordもないから
             # p 3333
-            @invites = Invite.where("title like ? or content like ?", "%#{params[:search][:word]}%", "%#{params[:search][:word]}%")
+            @invites = Invite.where("title like ? or content like ?", "%#{params[:search][:word]}%", "%#{params[:search][:word]}%").order(id: "DESC")
         end
         #elseでallで取得しなくて良いのはseachもinvite_category_idがなくてもどちらにしろ上のelseが呼ばれてallが取得される、逆にそうしないとカテゴリ検索がキーワード検索に上書きされてしまう
     end

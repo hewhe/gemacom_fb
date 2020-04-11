@@ -13,10 +13,8 @@
 
 	<%# 新規作成リンク %>
 	<div class="row">
-		<div class="col-3 offset-9", style="font-size: 30px;">
-			<%= link_to(new_invite_path) do %>
-				<i class="fab fa-apple-pay"></i>募集する
-			<% end %>
+		<div class="offset-8", style="font-size: 25px;">
+			<%= link_to("募集する(投稿を作成する)", new_invite_path, class: "btn btn-primary", style: "margin-bottom: 10px;") %>
 		</div>
 	</div>
 
@@ -40,7 +38,7 @@
 					<div class="card">
 						<p class="card-header"><%= invite.title%></p>
 						<div class="card-body">
-							<p class="card-text"><%= invite.content %></p>
+							<p class="card-text", style="word-break: break-all;"><%= invite.content %></p>
 						</div>
 						<div class="card-footer">
 							<%= link_to("##{category.name}", invites_path(invite_category_id: category.id)) %>
@@ -54,7 +52,7 @@
 <style>
 	.flex-box{
 		display: flex;
-		justify-content: flex-start	;
+		justify-content: flex-start;
 		align-items: flex-start;
 		flex-wrap: wrap;
 		align-content: flex-start;
