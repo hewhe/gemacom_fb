@@ -1,27 +1,45 @@
-groups#new
+<div class="container">
+    <div style="margin-top: 30px;">
+        <%= form_with(model: @group, local: true) do |f| %>
 
-<div>
-    <%= form_with(model: @group, local: true) do |f| %>
-        <div>
-            <%= f.label(:name, "グループ名") %>
-            <%= f.text_field(:name, value: @group.name) %>
-        </div>
+            <div class="row">
+                <% if @group.errors.any? %>
+                    <% @group.errors.full_messages.each do |error| %>
+                        <%= error %>
+                    <% end %>
+                <% end %>
+            </div>
 
-        <div>
-            <%= f.label(:image, "グループアイコン") %>
-            <%= f.attachment_field(:image) %>
-        </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:name, "グループ名", class: "form-control-label") %>
+                    <%= f.text_field(:name, value: @group.name, class: "form-control") %>
+                </div>
+            </div>
 
-        <div>
-            <%= f.label(:profile, "グループ説明(*後から入力可能)") %>
-            <%= f.text_area(:profile, value: @group.profile) %>
-        </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:image, "グループアイコン", class: "form-control-label") %>
+                    <%= f.attachment_field(:image) %>
+                </div>
+            </div>
 
-        <div>
-            <%= f.label(:group_category_id, "グループカテゴリーを選択してください") %>
-            <%= f.collection_select(:group_category_id, GroupCategory.all, :id, :name) %>
-        </div>
+            <div class="form-group row">
+                <div class="col-10">
+                    <%= f.label(:profile, "グループ説明(*後から入力可能)", class: "form-control-label") %>
+                    <%= f.text_area(:profile, value: @group.profile, size: "?x5", class: "form-control") %>
+                </div>
+            </div>
 
-        <%= f.submit("グループを作成") %>
-    <% end %>
+            <div class="form-group">
+                <%= f.label(:group_category_id, "グループカテゴリーを選択してください", class: "form-control-label") %>
+                <%= f.collection_select(:group_category_id, GroupCategory.all, :id, :name, class: "form-control") %>
+            </div>
+
+            <div class="text-right">
+                <%= f.submit("グループを作成", class: "btn btn-primary") %>
+            </div>
+
+        <% end %>
+    </div>
 </div>
