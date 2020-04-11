@@ -1,1 +1,37 @@
-board#edit
+<div class="container">
+    <div style="margin-top: 30px;">
+        <%= form_with(model: @board, url: group_board_path(@group.id, @board.id), method: :PATCH, local:true) do |f| %>
+
+            <div class="row">
+                <% if @board.errors.any? %>
+                    <% @board.errors.full_messages.each do |error| %>
+                        <%= error %>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-10">
+                    <%= f.label(:content, "内容", class: "form-control-label") %>
+                    <%= f.text_area(:content, value: @board.content, size: "?x5", class: "form-control") %>
+                </div>
+            </div>
+
+            <!-- 複数のモデルに画像を保存するには？GroupBoardではなくBoardImageに保存したい -->
+            <!-- 多分モデルにrefile特有の記述が必要 -->
+                <%#= f.label(:image, "画像を添付") %>
+                <%#= f.attachment_field(:image) %>
+
+            <div　class="form-group">
+                <!--<%= f.hidden_field(:flag, value: "雑談") %>-->
+                <%= f.label(:flag, "投稿カテゴリーを選択してください", class: "form-control-label") %>
+                <%= f.select(:flag, [["雑談", 0], ["募集", 1], ["お知らせ", 2]], class: "form-control") %>
+            </div>
+
+            <div class="text-right">
+                <%= f.submit("投稿する", class: "btn btn-primary") %>
+            </div>
+
+        <% end %>
+    </div>
+</div>

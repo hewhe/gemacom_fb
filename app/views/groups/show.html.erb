@@ -9,10 +9,15 @@
         </div>
     </div>
 
-	<%# 新規作成リンク %>
+	<%# メンバー一覧リンク %>
 	<div class="row">
-		<div class="offset-10", style="font-size: 25px;">
-			<%= link_to("投稿を作成する", new_invite_path, class: "btn btn-primary", style: "margin-bottom: 10px;") %>
+		<div class="offset-1", style="font-size: 25px;">
+			<%= link_to("メンバー", member_group_path(@group.id), class: "btn btn-primary", style: "margin-bottom: 10px;") %>
+		</div>
+
+	<%# 新規作成リンク %>
+		<div class="offset-6", style="font-size: 25px;">
+			<%= link_to("投稿を作成する", new_group_board_path(group_id: @group.id), class: "btn btn-primary", style: "margin-bottom: 10px;") %>
 		</div>
 	</div>
 
@@ -32,7 +37,7 @@
         </ul>
 
 
-        <div class="tab-content">
+        <div class="tab-content col-6 offset-1">
             <% @boards.each do |board| %>
                 <div class="card", style="margin-top: 5px;">
                     <%# 投稿タイトル %>
@@ -48,7 +53,7 @@
                                 <p class="card-text", style="word-break: break-all;"><%= board.content %></p>
                         <% end %>
 
-                        <div class="offset-10">
+                        <div class="offset-9">
                             <%# 編集、削除ボタン %>
                             <%# 投稿者本人と管理者が編集と削除ができる %>
                             <%# user = User.find_by(id: board.user_id) %>
