@@ -5,10 +5,10 @@ class UsersController < ApplicationController
 
     def create
         @user = User.new(user_params)
-        #@user.image_name = "d_image.jpg" 画像の保存
+        @user.image_id = "112690.jpg"
         if @user.save
             session[:user_id] = @user.id
-            flash[:notice] = "登録！！"
+            flash[:success] = "登録に成功しました"
             redirect_to(root_path)
         else
             render(:new)
@@ -25,8 +25,14 @@ class UsersController < ApplicationController
 
     def update
         @user = User.find(params[:id])
+
+        if image = params[:image]
+            @user.image_id = "#{@user.id}.jpg" #jpgにしてる
+            File.binwrite("public/#{@user.image_name}", image.read)
+        end
+
         if @user.update(user_params)
-            flash[:notice] = "更新"
+            flash[:success] = "更新しました"
             redirect_to(user_path(params[:id]))
         else
             render(:edit)

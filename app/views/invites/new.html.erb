@@ -1,38 +1,51 @@
-<div>
-	<% if @invite.errors.any? %>
-		<% @invite.errors.full_messages.each do |error| %>
-			<%= error %>
-		<% end %>
-	<% end %>
+<div class="container">
+
+    <!--募集カテゴリも保存できるようにするなら必要になるかも？
+    <div>
+        <%= form_with(model: @invite_category, local: true) do |f| %>
+            <div>
+            </div>
+        <% end %>
+    </div>
+    -->
+
+    <div style="margin-top: 30px;">
+        <%= form_with(model: @invite, local: true) do |f| %>
+
+            <div class="row">
+                <% if @invite.errors.any? %>
+                    <% @invite.errors.full_messages.each do |error| %>
+                        <%= error %>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:title, "タイトル", class: "form-control-label") %>
+                    <%= f.text_field(:title, value: @invite.title, class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-10">
+                    <%= f.label(:content, "内容", class: "form-control-label") %>
+                    <%= f.text_area(:content, value: @invite.content, size: "?x5", class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <%= f.label(:invite_category_id, "カテゴリー", class: "form-control-label") %>
+                <%= f.collection_select(:invite_category_id, InviteCategory.all, :id, :name, class: "form-control") %>
+            </div>
+
+            <div class="text-right">
+                <%= f.submit("投稿する", class: "btn btn-primary") %>
+            </div>
+        <% end %>
+    </div>
+
 </div>
 
-<!--募集カテゴリも保存できるようにするなら必要になるかも？
-<div>
-    <%= form_with(model: @invite_category, local: true) do |f| %>
-        <div>
-        </div>
-    <% end %>
-</div>
--->
-
-<div>
-    <%= form_with(model: @invite, local: true) do |f| %>
-
-        <div>
-            <%= f.label(:title, "タイトル") %>
-            <%= f.text_field(:title, value: @invite.title) %>
-        </div>
-
-        <div>
-            <%= f.label(:content, "内容") %>
-            <%= f.text_area(:content, value: @invite.content) %>
-        </div>
-
-        <div>
-            <%= f.label(:invite_category_id, "カテゴリー") %>
-            <%= f.collection_select(:invite_category_id, InviteCategory.all, :id, :name) %>
-        </div>
-
-        <%= f.submit("投稿する") %>
-    <% end %>
-</div>
+<style>
+</style>

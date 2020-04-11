@@ -14,7 +14,7 @@
       <nav class="navbar bg-dark p-0">
           <%# トップページリンク %>
             <%= link_to(root_path) do %>
-              <%= image_tag("logo.png", size: "200x80") %>
+              <%= image_tag("logo.png", size: "250x80") %>
             <% end %>
 
           <ul class="nav">
@@ -41,6 +41,12 @@
       </nav>
     </header>
 
+    <%# フラッシュメッセージを取り出してレイアウト %>
+    <% flash.each do |key, value| %>
+        <p class="alert alert-<%= key %>">
+          <%= value %>
+        </p>
+    <% end %>
     <%= yield %>
 
     <footer class="footer">

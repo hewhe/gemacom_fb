@@ -4,18 +4,18 @@ class InvitesController < ApplicationController
         @invite_categories = InviteCategory.all
         if params[:invite_category_id].present?
             invite_category = InviteCategory.find(params[:invite_category_id].to_i)
-            @invites = invite_category.invites
+            @invites = invite_category.invites.order(id: "DESC")
             # binding.pry
             # @invites = Invite.where(invite_category_id: invite_category.id)
         else
             # p 2222
-            @invites = Invite.all
+            @invites = Invite.all.order(id: "DESC")
         end
 
         #キーワード検索の実装
         if params[:search].present?#ここをparams[:search][:word]にするとnilClassになるので注意searchがないとwordもないから
             # p 3333
-            @invites = Invite.where("title like ? or content like ?", "%#{params[:search][:word]}%", "%#{params[:search][:word]}%")
+            @invites = Invite.where("title like ? or content like ?", "%#{params[:search][:word]}%", "%#{params[:search][:word]}%").order(id: "DESC")
         end
         #elseでallで取得しなくて良いのはseachもinvite_category_idがなくてもどちらにしろ上のelseが呼ばれてallが取得される、逆にそうしないとカテゴリ検索がキーワード検索に上書きされてしまう
     end
@@ -30,7 +30,7 @@ class InvitesController < ApplicationController
         #binding.pry
         @invite = Invite.new(invite_params)
         if @invite.save
-            flash[:notice] = "投稿に成功しました"
+            flash[:success] = "投稿に成功しました"
             redirect_to(invites_path)
         else
             render(:new)

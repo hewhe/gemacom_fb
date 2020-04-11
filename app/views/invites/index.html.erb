@@ -1,27 +1,70 @@
-<%# キーワード検索機能 %>
-<div>
+<div class="container">
+	<%# キーワード検索機能 %>
 	<%= form_with(scope: :search, url: invites_path, method: :GET, local: true) do |f| %>
-		<%= f.text_field(:word) %>
-		<%= f.submit("検索") %>
-	<% end %>
-</div>
-
-<%# カテゴリー検索 %>
-<div>
-	<p>カテゴリー一覧</p>
-	<% @invite_categories.each do |category| %>
-		<%= link_to("#{category.name}", invites_path(invite_category_id: category.id)) %>
-	<% end %>
-</div>
--------------------
-
-<%# 投稿一覧 %>
-<div>
-	<% @invites.each do |invite| %>
-		<div>
-			<%= invite.invite_category_id %>
-            <%= invite.title %><br>
-            <%= invite.content %>
+		<div class="row", style="margin: 20px 0;">
+			<div class="col-4 offset-3 p-0">
+				<%= f.text_field(:word, class: "form-control") %>
+			</div>
+			<div class="col-3 align-self-end">
+				<%= f.submit("検索", class: "btn btn-primary" ) %>
+			</div>
 		</div>
 	<% end %>
+
+	<%# 新規作成リンク %>
+	<div class="row">
+		<div class="offset-8", style="font-size: 25px;">
+			<%= link_to("募集する(投稿を作成する)", new_invite_path, class: "btn btn-primary", style: "margin-bottom: 10px;") %>
+		</div>
+	</div>
+
+	<%# カテゴリー検索 %>
+	<div class="card", style="margin-bottom: 20px;">
+		<p class="card-header invite-category">#カテゴリー 一覧</p>
+		<div class="card-body">
+			<ul class="list-inline">
+				<% @invite_categories.each do |category| %>
+					<li class="list-inline-item"><%= link_to("#{category.name}", invites_path(invite_category_id: category.id)) %></li>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+
+	<%# 投稿一覧 %>
+	<div class="flex-box">
+		<% @invites.each do |invite| %>
+			<div class="flex-box-item" style="margin-bottom: 20px;">
+					<% category = InviteCategory.find_by(id: invite.invite_category_id) %>
+					<div class="card">
+						<p class="card-header"><%= invite.title%></p>
+						<div class="card-body">
+							<p class="card-text", style="word-break: break-all;"><%= invite.content %></p>
+						</div>
+						<div class="card-footer">
+							<%= link_to("##{category.name}", invites_path(invite_category_id: category.id)) %>
+						</div>
+					</div>
+			</div>
+		<% end %>
+	</div>
 </div>
+
+<style>
+	.flex-box{
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		align-content: flex-start;
+	}
+
+	.flex-box-item{
+		flex-basis: 32%;
+		margin: 2px;
+	}
+
+	.invite-category{
+		font-size: 20px;
+		font-family: "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体";
+	}
+</style>

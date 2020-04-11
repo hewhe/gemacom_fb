@@ -24,8 +24,8 @@ class GroupsController < ApplicationController
         @group = Group.new(groupe_params)
         if @group.save
             Member.create(user_id: current_user.id, group_id: @group.id, flag: "admin")
-            flash[:notice] = "グループを作成しました"
-            redirect_to("/groups/new")
+            flash[:success] = "グループを作成しました"
+            redirect_to("/groups/top")
         else
             render(:new)
         end
@@ -66,7 +66,7 @@ class GroupsController < ApplicationController
     def update
         @group = Group.find(params[:id])
         if @group.update(groupe_params)
-            flash[:notice] = "グループを編集しました"
+            flash[:success] = "グループを編集しました"
             redirect_to("/groups/new")
         else
             render(:edit)
