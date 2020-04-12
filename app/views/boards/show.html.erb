@@ -42,7 +42,8 @@
                     <%# 投稿者本人と管理者が編集と削除ができる %>
                     <%# user = User.find_by(id: @board.user_id) %>
                     <%# if session[:user_id] == user.id || Member.where(group_id: @group.id, flag: "admin") %><!--↓のでok-->
-                    <% if session[:user_id] == @board.user_id or Member.where(group_id: @group.id, flag: "admin") %>
+                    <% member = Member.find_by(group_id: @group.id, flag: "admin") %>
+                    <% if session[:user_id] == @board.user_id or session[:user_id] == member.user_id %>
                         <%= link_to("編集", edit_group_board_path(group_id: @group.id, id: @board.id), class: "card-link") %>
                         <%= link_to("削除", group_board_path(group_id: @group.id, id: @board.id), method: :DELETE, class: "card-link") %>
                     <% end %>
@@ -97,7 +98,11 @@
                     <p class="card-text", style="word-break: break-all;"><%= comment.content %></p>
 
                     <div class="offset-11">
-                        <%= link_to("削除", group_board_comment_path(group_id: @group.id, board_id: @board.id, id: comment.id), method: :DELETE, class: "card-link") %>
+                        <%# 表示制限 %>
+                        <% member = Member.find_by(group_id: @group.id, flag: "admin") %>
+                        <% if session[:user_id] == comment.user_id or session[:user_id] == member.user_id  %>
+                            <%= link_to("削除", group_board_comment_path(group_id: @group.id, board_id: @board.id, id: comment.id), method: :DELETE, class: "card-link") %>
+                        <% end %>
                     </div>
                 </div>
             </div>

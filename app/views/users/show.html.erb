@@ -12,7 +12,8 @@
 					<p class="card-text", style="word-break: break-all; font-size: 18px;"><%= @user.profile %></p>
 				</div>
 
-				<% if @user.id == session[:user_id] %>
+				<%# 表示制限 %>
+				<% if session[:user_id] == @user.id %>
 					<div class="card-footer" style="padding: 1px;">
 						<div>
 							<%= link_to("編集", edit_user_path(@user.id), class: "btn btn-primary btn-sm card-link") %>
@@ -93,10 +94,10 @@
 
 									<div class="offset-9">
 										<%# 編集、削除ボタン %>
-										<%# 投稿者本人と管理者が編集と削除ができる %>
+										<%# 投稿者本人と管理者が編集と削除ができる←ここでは投稿者本人のみが編集可能、管理者にするとグループのidが必要になる %>
 										<%# user = User.find_by(id: board.user_id) %>
 										<%# if session[:user_id] == user.id || Member.where(group_id: group.id, flag: "admin") %><!--↓のでok-->
-										<% if session[:user_id] == board.user_id or Member.where(group_id: group.id, flag: "admin") %>
+										<% if session[:user_id] == board.user_id %>
 											<%= link_to("編集", edit_group_board_path(group_id: group.id, id: board.id), class: "card-link") %>
 											<%= link_to("削除", group_board_path(group_id: group.id, id: board.id), method: :DELETE, class: "card-link", style: "margin: 0;") %>
 										<% end %>
