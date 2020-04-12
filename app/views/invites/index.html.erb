@@ -33,12 +33,12 @@
 	<%# 投稿一覧 %>
 	<div class="flex-box">
 		<% @invites.each do |invite| %>
-			<div class="flex-box-item" style="margin-bottom: 20px;">
+			<div class="flex-box-item col-4" style="margin-bottom: 20px;">
 					<% category = InviteCategory.find_by(id: invite.invite_category_id) %>
 					<div class="card">
 						<p class="card-header"><%= invite.title%></p>
 						<div class="card-body">
-							<p class="card-text", style="word-break: break-all;"><%= raw Rinku.auto_link(h(invite.content)) %></p>
+							<p class="card-text", style="word-break: break-all;"><%= simple_format(raw Rinku.auto_link(h(invite.content))) %></p>
 						</div>
 						<div class="card-footer">
 							<%= link_to("##{category.name}", invites_path(invite_category_id: category.id)) %>
@@ -60,7 +60,7 @@
 
 	.flex-box-item{
 		flex-basis: 32%;
-		margin: 2px;
+		margin: 1px;
 	}
 
 	.invite-category{

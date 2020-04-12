@@ -72,7 +72,7 @@
                     <div class="card-body", style="padding: 5px 20px 5px 20px;">
                         <%# 投稿詳細へ %>
                         <%= link_to(group_board_path(group_id: @group.id, id: board.id), style: "text-decoration: none; color: black;") do %>
-                                <p class="card-text", style="word-break: break-all;"><%= raw Rinku.auto_link(h(board.content)) %></p>
+                                <p class="card-text", style="word-break: break-all;"><%= simple_format(raw Rinku.auto_link(h(board.content))) %></p>
                         <% end %>
 
                         <div class="offset-9">

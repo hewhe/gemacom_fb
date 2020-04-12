@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="card-body", style="padding: 5px 20px 5px 20px;">
-                    <p class="card-text", style="word-break: break-all;"><%= raw Rinku.auto_link(h(comment.content)) %></p>
+                    <p class="card-text", style="word-break: break-all;"><%= simple_format(raw Rinku.auto_link(h(comment.content))) %></p>
 
                     <div class="offset-11">
                         <%# 表示制限 %>
