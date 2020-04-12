@@ -38,7 +38,7 @@
 					<div class="card">
 						<p class="card-header"><%= invite.title%></p>
 						<div class="card-body">
-							<p class="card-text", style="word-break: break-all;"><%= invite.content %></p>
+							<p class="card-text", style="word-break: break-all;"><%= raw Rinku.auto_link(h(invite.content)) %></p>
 						</div>
 						<div class="card-footer">
 							<%= link_to("##{category.name}", invites_path(invite_category_id: category.id)) %>
