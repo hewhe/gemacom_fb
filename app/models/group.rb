@@ -1,7 +1,7 @@
 class Group < ApplicationRecord
     attachment :image
     has_many :members
-    has_many :group_boards
+    has_many :group_boards, dependent: :destroy
     belongs_to :group_category
 
     validates :name, presence: true
