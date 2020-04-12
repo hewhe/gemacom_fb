@@ -3,6 +3,24 @@
         <div class="col-2">
             <%= attachment_image_tag(@group, :image, :fill, 100, 100, class: "rounded") %>
         </div>
+
+    <div class="row">
+        <div style="margin-top: 5px;">
+            <%# current_user ||= User.find_by(id: session[:user_id]) %>
+            <!-- なぜここに再定義する必要がありのかはcontrollerの方に書いててviewで使えないから、helperの方に書きましょう -->
+            <%# if Member.find_by(user_id: current_user.id, group_id: @group.id).present? %>
+            <!-- わざわざcurrent_user使わなくてもsessionでできる -->
+            <% member = Member.find_by(group_id: @group.id, flag: "admin") %>
+            <% if session[:user_id] == member.user_id %>
+                <p class="btn btn-warning" style="margin-bottom: 10px; color: #fff;">管理者は退会できません</p>
+            <% elsif Member.find_by(user_id: session[:user_id], group_id: @group.id).present? %>
+                <%= link_to("このグループを退会する", "/groups/#{@group.id}/joins", method: :delete, class: "btn btn-danger", style: "margin-bottom: 10px;") %>
+            <% else %>
+                <%= link_to("このグループに参加する", "/groups/#{@group.id}/joins", method: :post, class: "btn btn-primary", style: "margin-bottom: 10px;") %>
+            <% end %>
+        </div>
+    </div>
+
         <div class="offset-3", style="margin-top: 10px;">
             <h5><%= "グループ名: #{@group.name}" %></h5>
             <%#表示制限%>
