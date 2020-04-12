@@ -1,4 +1,6 @@
 class BoardsController < ApplicationController
+    before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
+
     def new
         #グループ内投稿の新規作成フォーム（コメントではない）
         @board = GroupBoard.new

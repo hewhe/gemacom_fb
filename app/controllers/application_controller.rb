@@ -15,14 +15,14 @@ class ApplicationController < ActionController::Base
 
 	def authenticate_user
 		if current_user == nil
-			flash[:notice] = "ログインしてください"
+			flash[:danger] = "ログインしてください"
 			redirect_to "/login"
 		end
 	end
 
     def forbid_login_user
         if current_user
-            flash[:notice] = "既にログインしています"
+            flash[:danger] = "既にログインしています"
             redirect_to(root_path)
         end
     end

@@ -1,4 +1,5 @@
 class BookmarksController < ApplicationController
+    before_action :authenticate_user, only: [:create, :update]
     def create
         bookmark = Bookmark.new(user_id: current_user.id, group_board_id: params[:board_id])
         bookmark.save
