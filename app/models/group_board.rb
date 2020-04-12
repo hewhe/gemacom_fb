@@ -7,4 +7,7 @@ class GroupBoard < ApplicationRecord
     has_many :bookmarks
 
     enum flag: [:雑談, :募集, :お知らせ]
+
+    validates :content, presence: true
+    validates :flag, presence: true
 end

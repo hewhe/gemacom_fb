@@ -17,6 +17,19 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+
+        if params[:type].present?
+            case params[:type].to_i
+            when 0
+                @members = Member.where(user_id: @user.id).order(id: "DESC")
+            when 1
+                #binding.pry
+                @bookmarks = Bookmark.where(user_id: @user.id).order(id: "DESC")
+            end
+        else
+            @members = Member.where(user_id: @user.id).order(id: "DESC")
+        end
+
     end
 
     def edit
@@ -26,16 +39,18 @@ class UsersController < ApplicationController
     def update
         @user = User.find(params[:id])
 
-        if image = params[:image]
+        if params[:image].present?
+            #binding.pry
+            #image = params[:image]
             @user.image_id = "#{@user.id}.jpg" #jpgにしてる
-            File.binwrite("public/#{@user.image_name}", image.read)
+            File.binwrite("public/#{@user.image_id}", "#{params[:image]}".read)
         end
 
         if @user.update(user_params)
             flash[:success] = "更新しました"
             redirect_to(user_path(params[:id]))
         else
-            render(:edit)
+            render("/users/#{params[:id]}/edit")
         end
     end
 

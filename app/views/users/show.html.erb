@@ -1,1 +1,176 @@
-user#show
+<div class="container">
+	<div class="flex-box" style="margin-top: 20px;">
+
+		<div class="flex-box-item1" style="margin-bottom: 20px;">
+			<div class="card">
+				<div class="card-img-top image">
+                    <%= image_tag @user.image_id, style: "width: 100%; height: 180px;" %>
+                </div>
+				<p class="card-header" style="padding: 5px; word-break: break-all;"><%= @user.name %></p>
+				<div class="card-body", style="padding: 5px;">
+					<p class="card-title" style="font-size: 10px;">＜プロフィール＞</p>
+					<p class="card-text", style="word-break: break-all; font-size: 18px;"><%= @user.profile %></p>
+				</div>
+
+				<% if @user.id == session[:user_id] %>
+					<div class="card-footer" style="padding: 1px;">
+						<div>
+							<%= link_to("編集", edit_user_path(@user.id), class: "btn btn-primary btn-sm card-link") %>
+							<%= link_to("アカウントの削除", user_path, method: :delete, class: "btn btn-danger btn-sm card-link", style: "margin: 0;") %>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+
+		<div class="flex-box-item2">
+			<%# タブ %>
+			<div>
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<%= link_to("参加コミュニティー ", "/users/#{@user.id.to_s}?type=0", class: "nav-link") %><!--クエリパラメーターを使って渡してあげることもできる（あとで調べる）-->
+					</li>
+					<li class="nav-item">
+						<%= link_to("ブックマーク", user_path(@user.id, type: 1), class: "nav-link") %>
+					</li>
+					<!-- path表記両方ともpath()のように引数形式で渡さないとparamsが送られない、普通に~path, type~としてもできないなぜ？ -->
+				</ul>
+
+				<%# タブ要素 %>
+				<div class="tab-content col-8 offset-1">
+
+					<%# @membersの変数を受け取った時のみ表示 %>
+					<% if @members.present? %>
+						<% @members.each do |member| %>
+							<% group = Group.find_by(id: member.group_id) %>
+							<div class="card", style="margin-top: 5px;">
+								<%# コミュニティー 名 %>
+								<p class="card-header">
+									<%= link_to(group.name, group_path(group.id)) %>
+								</p>
+
+								<%# グループ画像の表示 %>
+								<div class="card-img-top image">
+									<%= attachment_image_tag(group, :image, :fill, 150, 150, class: "mx-auto d-block border") %>
+								</div>
+
+								<div class="card-body">
+									<!-- そのグループに所属しているメンバーの取得 -->
+									<% members = Member.where(group_id: group.id) %>
+									<!-- そのグループの管理者名の取得 -->
+									<% member = Member.find_by(group_id: group.id, flag: "admin") %>
+									<% user = User.find_by(id: member.user_id) %>
+									<p class="card-subtitle text-muted">
+										<%= "管理者#{user.name}さん" %>
+									</p>
+
+									<p class="card-text", style="word-break: break-all;">
+										<%= group.profile %>
+									</p>
+								</div>
+							</div>
+						<% end %>
+					<% end %>
+
+					<%# @bookmarksの変数を受け取った時のみ表示 %>
+					<% if @bookmarks.present? %>
+						<% @bookmarks.each do |bookmark| %>
+							<% board = GroupBoard.find_by(id: bookmark.group_board_id) %>
+							<% group = Group.find_by(id: board.group_id) %>
+							<div class="card", style="margin-top: 5px;">
+								<%# 投稿タイトル %>
+								<div class="card-header", style="padding: 5px 20px 5px 20px;">
+									<% user = User.find_by(id: board.user_id) %>
+									<%# attachment_image_tag(user, :image, :fill, 30, 30, class: "rounded-circle") %>
+									<%= user.name %>
+								</div>
+
+								<div class="card-body", style="padding: 5px 20px 5px 20px;">
+									<%# 投稿詳細へ %>
+									<%= link_to(group_board_path(group_id: group.id, id: board.id), style: "text-decoration: none; color: black;") do %>
+											<p class="card-text", style="word-break: break-all;"><%= board.content %></p>
+									<% end %>
+
+									<div class="offset-9">
+										<%# 編集、削除ボタン %>
+										<%# 投稿者本人と管理者が編集と削除ができる %>
+										<%# user = User.find_by(id: board.user_id) %>
+										<%# if session[:user_id] == user.id || Member.where(group_id: group.id, flag: "admin") %><!--↓のでok-->
+										<% if session[:user_id] == board.user_id or Member.where(group_id: group.id, flag: "admin") %>
+											<%= link_to("編集", edit_group_board_path(group_id: group.id, id: board.id), class: "card-link") %>
+											<%= link_to("削除", group_board_path(group_id: group.id, id: board.id), method: :DELETE, class: "card-link", style: "margin: 0;") %>
+										<% end %>
+									</div>
+								</div>
+
+								<div class="card-footer", style="padding: 5px 20px 5px 20px;">
+									<div>
+										<%# いいねの表示と処理 %>
+										<% like = Like.where(group_board_id: board.id) %>
+										<% if Like.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+											<%= link_to("/groups/#{group.id}/boards/#{board.id}/likes", method: :DELETE, class: "card-link") do %>
+												<i class="fas fa-heart", style="font-family: Font Awesome 5 Free;"></i>
+											<% end %>
+											<%= like.count %>
+										<% else %>
+											<%= link_to("/groups/#{group.id}/boards/#{board.id}/likes", method: :POST, class: "card-link") do %>
+												<i class="far fa-heart", style="font-family: Font Awesome 5 Free;"></i>
+											<% end %>
+											<%= like.count %>
+										<% end %>
+
+										<%# ブックマークの表示と処理 %>
+										<% bookmark = Bookmark.where(group_board_id: board.id) %>
+										<% if Bookmark.where(user_id: session[:user_id], group_board_id: board.id).present? %>
+											<%= link_to("/groups/#{group.id}/boards/#{board.id}/bookmarks", method: :DELETE, class: "card-link") do %>
+												<i class="fas fa-bookmark", style="font-family: Font Awesome 5 Free;"></i>
+											<% end %>
+											<%= bookmark.count %>
+										<% else %>
+											<%= link_to("/groups/#{group.id}/boards/#{board.id}/bookmarks", method: :POST, class: "card-link") do %>
+												<i class="far fa-bookmark", style="font-family: Font Awesome 5 Free;"></i>
+											<% end %>
+											<%= bookmark.count %>
+										<% end %>
+									</div>
+								</div>
+							</div>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<style>
+	.flex-box{
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		align-content: flex-start;
+	}
+
+	.flex-box-item1{
+		flex-basis: 20%;
+		margin: 2px;
+	}
+
+	.flex-box-item2{
+		flex-basis: 60%;
+		margin-top: 2px;
+		margin-left: 10px;
+	}
+
+    .image{
+        background: linear-gradient(to bottom, #DDEEFF, #FFF);
+        border: solid #DDEEFF;
+    }
+
+	.btn{
+		padding: 5px;
+		font-size: 10px;
+	}
+</style>

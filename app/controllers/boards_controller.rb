@@ -15,7 +15,7 @@ class BoardsController < ApplicationController
         #@board.flag = "雑談"
         if @board.save
             flash[:success] = "投稿に成功しました"
-            redirect_to("/groups/#{params[:group_id]}")
+            redirect_to(group_path(params[:group_id]))
         else
             render(:new)
         end
@@ -30,14 +30,17 @@ class BoardsController < ApplicationController
     end
 
     def edit
+        @group = Group.find_by(id: params[:group_id])
         @board = GroupBoard.find_by(id: params[:id])
     end
 
     def update
+        params[:group_board][:flag] = params[:group_board][:flag].to_i
+
         @board = GroupBoard.find_by(id: params[:id])
         if @board.update(board_params)
             flash[:success] = "投稿を編集しました"
-            redirect_to("/groups/#{params[:group_id]}")
+            redirect_to("/groups/#{params[:group_id]}/boards/#{params[:id]}")
         else
             render(:edit)
         end

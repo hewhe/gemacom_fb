@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
     end
 
     def member
-        p current_user
+        # p current_userターミナルに出る
         @group = Group.find(params[:id])
         @members = Member.where(group_id: @group.id)
     end
@@ -44,14 +44,14 @@ class GroupsController < ApplicationController
         if params[:type].present?
             case params[:type].to_i
             when 0
-                @boards = GroupBoard.where(group_id: @group.id, flag: 0)
+                @boards = GroupBoard.where(group_id: @group.id, flag: 0).order(id: "DESC")
             when 1
-                @boards = GroupBoard.where(group_id: @group.id, flag: 1)
+                @boards = GroupBoard.where(group_id: @group.id, flag: 1).order(id: "DESC")
             when 2
-                @boards = GroupBoard.where(group_id: @group.id, flag: 2)
+                @boards = GroupBoard.where(group_id: @group.id, flag: 2).order(id: "DESC")
             end
         else
-            @boards = GroupBoard.where(group_id: @group.id)
+            @boards = GroupBoard.where(group_id: @group.id).order(id: "DESC")
         end
     end
 

@@ -71,7 +71,7 @@ gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 
 #font-Awesome
-gem 'font-awesome-sass', '~> 5.4.1'
+gem 'font_awesome5_rails'
 
 
 gem 'dotenv-rails'

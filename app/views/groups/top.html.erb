@@ -63,7 +63,7 @@
 					<div class="card-footer">
                         <!-- カテゴリー名の表示 -->
                         <% category = GroupCategory.find_by(id: group.group_category_id) %>
-						<%= link_to("##{category.name}", invites_path(invite_category_id: category.id)) %>
+						<%= link_to("##{category.name}", top_groups_path(group_category_id: category.id)) %>
 					</div>
 				</div>
 			</div>
