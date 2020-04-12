@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+    before_action :authenticate_user, only: [:create, :destroy]
     def create
         like = Like.new(user_id: current_user.id, group_board_id: params[:board_id])
         #binding.pry

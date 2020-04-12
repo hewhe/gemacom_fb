@@ -5,7 +5,11 @@
         </div>
         <div class="offset-3", style="margin-top: 10px;">
             <h5><%= "グループ名: #{@group.name}" %></h5>
-            <%= link_to("編集する", edit_group_path(@group.id), class: "btn btn-primary btn-sm") %>
+            <%#表示制限%>
+            <% member = Member.find_by(group_id: @group.id, flag: "admin") %>
+            <% if session[:user_id] == member.user_id %>
+                <%= link_to("編集する", edit_group_path(@group.id), class: "btn btn-primary btn-sm") %>
+            <% end %>
         </div>
     </div>
 
@@ -54,11 +58,13 @@
                         <% end %>
 
                         <div class="offset-9">
+                            <%#表示制限%>
                             <%# 編集、削除ボタン %>
                             <%# 投稿者本人と管理者が編集と削除ができる %>
                             <%# user = User.find_by(id: board.user_id) %>
                             <%# if session[:user_id] == user.id || Member.where(group_id: @group.id, flag: "admin") %><!--↓のでok-->
-                            <% if session[:user_id] == board.user_id or Member.where(group_id: @group.id, flag: "admin") %>
+                            <% member = Member.find_by(group_id: @group.id, flag: "admin") %>
+                            <% if session[:user_id] == board.user_id or session[:user_id] == member.user_id %>
                                 <%= link_to("編集", edit_group_board_path(group_id: @group.id, id: board.id), class: "card-link") %>
                                 <%= link_to("削除", group_board_path(group_id: @group.id, id: board.id), method: :DELETE, class: "card-link") %>
                             <% end %>

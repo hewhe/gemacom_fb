@@ -1,4 +1,7 @@
 class BoardsController < ApplicationController
+    before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
+    before_action :correct_user, only: [:edit, :update, :destroy]
+
     def new
         #グループ内投稿の新規作成フォーム（コメントではない）
         @board = GroupBoard.new
@@ -24,9 +27,10 @@ class BoardsController < ApplicationController
     def show
         #グループ内投稿の詳細画面
         @group = Group.find_by(id: params[:group_id])
-        @board = GroupBoard.find_by(group_id: @group.id)
+        @board = GroupBoard.find_by(id: params[:id], group_id: @group.id)
         @comments = Comment.where(group_board_id: @board.id)
         @comment = Comment.new
+        #binding.pry
     end
 
     def edit
@@ -56,5 +60,12 @@ class BoardsController < ApplicationController
     private
     def board_params
         params.require(:group_board).permit(:content, :flag)
+    end
+
+    def correct_user
+        board = GroupBoard.find_by(id: params[:id])
+        if current_user.id != board.user.id
+            redirect_to(root_path)
+        end
     end
 end

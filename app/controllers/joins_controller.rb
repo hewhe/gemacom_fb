@@ -1,4 +1,5 @@
 class JoinsController < ApplicationController
+    before_action :authenticate_user, only: [:create, :destroy]
     def create
         member = Member.new(user_id: current_user.id, group_id: params[:group_id], flag: "guest")
         member.save
