@@ -9,9 +9,9 @@ class ApplicationController < ActionController::Base
     # end
 
     #ログインしている時はtrueを返す（何もない(nil)の否定だから）
-	def logged_in?
-		!current_user.nil?
-    end
+	# def logged_in?
+	# 	!current_user.nil?
+    # end
 
 	def authenticate_user
 		if current_user == nil

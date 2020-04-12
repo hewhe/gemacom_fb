@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-    attachment :image
+    # attachment :image
     has_many :members
     has_many :group_boards
     has_many :comments
@@ -8,6 +8,6 @@ class User < ApplicationRecord
     has_many :tasks
     has_secure_password
 
-    validates :name, uniqueness: true
-    validates :password, length: { minimum: 6 }, allow_nil: true#あとでここ調べる
+    validates :name, uniqueness: true, presence: true, allow_nil: true
+    validates :password, length: { minimum: 6 }, allow_nil: true
 end

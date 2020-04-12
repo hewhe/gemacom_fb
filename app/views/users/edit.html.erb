@@ -1,35 +1,57 @@
-<div>
-	<% if @user.errors.any? %>
-		<% @user.errors.full_messages.each do |error| %>
-			<%= error %>
-		<% end %>
-	<% end %>
-</div>
+<div class="container">
+    <div style="margin-top: 30px;">
+        <%= form_with( model: @user, url: user_path(@user.id), method: :PATCH, local: true) do |f| %>
 
-<div>
-	<%= form_with( model: @user, url: users_path, method: :POST, local: true) do |f| %>
-        <div>
-            <%= f.label(:name, "名前") %>
-            <%= f.text_field(:name, value: @user.name) %>
+            <div class="row">
+                <% if @user.errors.any? %>
+                    <% @user.errors.full_messages.each do |error| %>
+                        <%= error %>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:name, "名前", class: "form-control-label") %>
+                    <%= f.text_field(:name, value: @user.name, class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:password, "パスワード", class: "form-control-label") %>
+                    <%= f.password_field(:password, class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <%= f.label(:password_confirmation, "確認用パスワード", class: "form-control-label") %>
+                    <%= f.password_field(:password_confirmation, class: "form-control") %>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4" style="padding: 15px 0 15px 15px;">
+                    <%= image_tag(@user.image_id, size: "50x50", class: "rounded-circle") %>
+                    <%= f.label(:image, "アイコンの変更", class: "form-control-label") %>
+                </div>
+                <div class="col-7" style="padding: 25px 15px 15px 0;">
+                    <%= file_field_tag(:image) %>
+                </div>
+            </div>
+
+        <div class="form-group row">
+            <div class="col-5">
+                <%= f.label(:profile, "プロフィール入力", class: "form-control-label") %>
+                <%= f.text_area(:profile, value: @user.profile, size: "?x5", class: "form-control") %>
+            </div>
         </div>
 
-        <div>
-            <%= f.label(:password, "パスワード") %>
-            <%= f.password_field(:password) %>
-        </div>
+            <div class="text-center">
+                <%= f.submit("編集を更新する", class: "btn btn-primary") %>
+            </div>
 
-        <div>
-            <%= f.label(:password_confirmation, "確認用パスワード") %>
-            <%= f.password_field(:password_confirmation) %>
-        </div>
-
-        <div>
-            <%= f.label(:image, "画像") %>
-            <%= file_field_tag :image %>
-        </div>
-
-        <div>
-            <%= f.submit("更新") %>
-        </div>
-	<% end %>
+        <% end %>
+    </div>
 </div>
