@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
                 @boards = GroupBoard.where(group_id: @group.id, flag: 2).order(id: "DESC")
             end
         else
-            @boards = GroupBoard.where(group_id: @group.id).order(id: "DESC")
+            @boards = GroupBoard.where(group_id: @group.id, flag: 0).order(id: "DESC")
         end
     end
 

@@ -24,9 +24,10 @@ class BoardsController < ApplicationController
     def show
         #グループ内投稿の詳細画面
         @group = Group.find_by(id: params[:group_id])
-        @board = GroupBoard.find_by(group_id: @group.id)
+        @board = GroupBoard.find_by(id: params[:id], group_id: @group.id)
         @comments = Comment.where(group_board_id: @board.id)
         @comment = Comment.new
+        #binding.pry
     end
 
     def edit
