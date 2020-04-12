@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
     before_action :authenticate_user, only: [:new, :create, :edit, :update]
+    before_action :correct_user, only: [:edit, :update]
     def top
         @group_categories = GroupCategory.all
 
@@ -56,9 +57,9 @@ class GroupsController < ApplicationController
         end
     end
 
-    def info
-        group = Group.find(params[:id])
-    end
+    # def info
+    #     group = Group.find(params[:id])
+    # end
 
     def edit
         @group = Group.find(params[:id])
@@ -77,5 +78,13 @@ class GroupsController < ApplicationController
     private
     def groupe_params
         params.require(:group).permit(:name, :profile, :group_category_id, :image)
+    end
+
+    def correct_user
+        group = Group.find_by(id: params[:id])
+        member = Member.find_by(group_id: group.id, flag: "admin")
+        if current_user.id != member.user_id
+            redirect_to(root_path)
+        end
     end
 end

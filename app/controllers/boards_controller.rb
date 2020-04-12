@@ -1,5 +1,6 @@
 class BoardsController < ApplicationController
     before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
+    before_action :correct_user, only: [:edit, :update, :destroy]
 
     def new
         #グループ内投稿の新規作成フォーム（コメントではない）
@@ -59,5 +60,12 @@ class BoardsController < ApplicationController
     private
     def board_params
         params.require(:group_board).permit(:content, :flag)
+    end
+
+    def correct_user
+        board = GroupBoard.find_by(id: params[:id])
+        if current_user.id != board.user.id
+            redirect_to(root_path)
+        end
     end
 end
