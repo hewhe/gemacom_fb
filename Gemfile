@@ -73,6 +73,8 @@ gem 'jquery-rails'
 #font-Awesome
 gem 'font_awesome5_rails'
 
+gem 'rinku'
+
 
 gem 'dotenv-rails'
 group :production do
