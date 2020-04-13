@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+#invite_categoryの初期データ
+invite_categories = ["雑談", "オフラインゲーム", "オンラインゲーム", "ソーシャルゲーム", "PCゲーム", "家庭用ゲーム機", "その他"]
+invite_categories.each { |category| InviteCategory.create(name: category) }
+
+#group_categoryの初期データ
+group_categories = ["オフラインゲーム", "オンラインゲーム", "ソーシャルゲーム", "PCゲーム", "家庭用ゲーム機", "その他"]
+group_categories.each { |category| GroupCategory.create(name: category) }
