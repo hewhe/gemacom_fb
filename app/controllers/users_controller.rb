@@ -39,14 +39,14 @@ class UsersController < ApplicationController
     end
 
     def update
-        begin
+        #begin
             @user = User.find(params[:id])
 
             if params[:image].present?
                 #binding.pry
-                #image = params[:image]
+                image = params[:image]
                 @user.image_id = "#{@user.id}.jpg" #jpgにしてる
-                File.binwrite("#{@user.image_id}", "#{params[:image]}".read)
+                File.binwrite("public/images/#{@user.image_id}", image.read)
             end
 
             if @user.update(user_params)
@@ -55,10 +55,10 @@ class UsersController < ApplicationController
             else
                 render("/users/#{params[:id]}/edit")
             end
-        rescue
-            flash[:danger] = "保存ができませんでした"
-            redirect_to(root_path)
-        end
+        #rescue
+            #flash[:danger] = "保存ができませんでした"
+            #redirect_to(root_path)
+        #end
     end
 
     private
