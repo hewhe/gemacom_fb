@@ -18,6 +18,10 @@
             <% end %>
 
           <ul class="nav">
+            <%# ログインしているとき %>
+
+              <%# ログアウト %>
+              <li class="m-2"><%= link_to("ログアウト", logout_path, style: "color:#fff;", method: :delete) %></li>
 
           </ul>
         </div>
