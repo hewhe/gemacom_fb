@@ -14,7 +14,7 @@
       <nav class="navbar bg-dark p-0">
           <%# トップページリンク %>
             <%= link_to(root_path) do %>
-              <%= image_tag("logo.png", size: "250x80") %>
+              <%= image_tag("/logo.png", size: "250x80") %>
             <% end %>
 
           <ul class="nav">
@@ -24,7 +24,7 @@
               <%# アバウト %>
               <li class="m-2"><%= link_to("このサイトについて", about_path, style: "color:#fff;") %></li>
               <%# メモリンク %>
-              <!--<li class="m-2"><%= link_to("このサイトについて", about_path, style: "color:#fff;") %></li>-->
+              <li class="m-2"><%= link_to("メモ", tasks_path, style: "color:#fff;") %></li>
               <%# マイページリンク %>
               <li class="m-2"><%= link_to("#{user.name}さん", user_path(user.id), style: "color:#fff;") %></li>
               <%# ログアウト %>
