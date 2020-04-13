@@ -39,20 +39,25 @@ class UsersController < ApplicationController
     end
 
     def update
-        @user = User.find(params[:id])
+        begin
+            @user = User.find(params[:id])
 
-        if params[:image].present?
-            #binding.pry
-            #image = params[:image]
-            @user.image_id = "#{@user.id}.jpg" #jpgにしてる
-            File.binwrite("#{@user.image_id}", "#{params[:image]}".read)
-        end
+            if params[:image].present?
+                #binding.pry
+                #image = params[:image]
+                @user.image_id = "#{@user.id}.jpg" #jpgにしてる
+                File.binwrite("#{@user.image_id}", "#{params[:image]}".read)
+            end
 
-        if @user.update(user_params)
-            flash[:success] = "更新しました"
-            redirect_to(user_path(params[:id]))
-        else
-            render("/users/#{params[:id]}/edit")
+            if @user.update(user_params)
+                flash[:success] = "更新しました"
+                redirect_to(user_path(params[:id]))
+            else
+                render("/users/#{params[:id]}/edit")
+            end
+        rescue
+            flash[:danger] = "保存ができませんでした"
+            redirect_to(root_path)
         end
     end
 
