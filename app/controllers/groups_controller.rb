@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
         @group = Group.find(params[:id])
         if @group.update(groupe_params)
             flash[:success] = "グループを編集しました"
-            redirect_to("/groups/#{@grpops.id}")
+            redirect_to("/groups/#{@group.id}")
         else
             render(:edit)
         end
