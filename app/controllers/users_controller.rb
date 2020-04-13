@@ -45,7 +45,7 @@ class UsersController < ApplicationController
             #binding.pry
             #image = params[:image]
             @user.image_id = "#{@user.id}.jpg" #jpgにしてる
-            File.binwrite("public/#{@user.image_id}", "#{params[:image]}".read)
+            File.binwrite("#{@user.image_id}", "#{params[:image]}".read)
         end
 
         if @user.update(user_params)
