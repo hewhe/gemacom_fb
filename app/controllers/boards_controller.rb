@@ -11,6 +11,7 @@ class BoardsController < ApplicationController
         #viewでinteger型で設定してもparamsはstringで送られてくるからenumはinteger型で保存する
         params[:group_board][:flag] = params[:group_board][:flag].to_i
 
+        #if Member.find_by(group_id: params[:group_id], user_id: current_user.id).present?これでこのグループに所属していないユーザは作成できない？
         @board = GroupBoard.new(board_params)
         @board.user_id = current_user.id
         @board.group_id = params[:group_id]
