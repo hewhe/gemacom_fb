@@ -35,11 +35,12 @@ class BoardsController < ApplicationController
 
     def edit
         @board = GroupBoard.find_by(id: params[:id])
-        if current_user.id != @board.user.id or current_user.id != member.user_id
+        member = Member.find_by(group_id: params[:group_id], flag: "admin")
+        if current_user.id == @board.user.id or current_user.id == member.user_id
             @group = Group.find_by(id: params[:group_id])
             #@board = GroupBoard.find_by(id: params[:id])
         else
-            render(root_path)
+            redirect_to(root_path)
         end
     end
 
