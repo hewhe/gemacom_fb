@@ -3,8 +3,13 @@ class BoardsController < ApplicationController
     #before_action :correct_user, only: [:edit, :update, :destroy]
 
     def new
-        #グループ内投稿の新規作成フォーム（コメントではない）
-        @board = GroupBoard.new
+        if Member.find_by(group_id: params[:group_id], user_id: current_user.id).present?
+            #グループ内投稿の新規作成フォーム（コメントではない）
+            @board = GroupBoard.new
+        else
+            flash[:danger] = "グループに参加してから投稿してください"
+            redirect_to(root_path)
+        end
     end
 
     def create
