@@ -63,7 +63,7 @@
                     <% if session[:user_id] == member.user_id %>
                         <div class="card-footer", style="padding: 2px;">
                             <div>
-                                <%= link_to("このユーザを追放する", group_joins_path(group_id: @group.id, member_id: member.id, flag: "admin"), method: :DELETE, class: "btn btn-danger btn-sm") %>
+                                <%= link_to("このユーザを追放する", group_joins_path(group_id: @group.id, member_id: user.id, flag: "admin"), method: :DELETE, class: "btn btn-danger btn-sm") %>
                             </div>
                         </div>
                     <% end %>

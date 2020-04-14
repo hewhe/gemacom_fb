@@ -36,7 +36,7 @@ class GroupsController < ApplicationController
     def member
         # p current_userターミナルに出る
         @group = Group.find(params[:id])
-        @members = Member.where(group_id: @group.id)
+        @members = Member.where(group_id: @group.id).where.not(user_id: current_user.id)
     end
 
     def show
