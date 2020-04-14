@@ -1,3 +1,26 @@
 // Place all the styles related to the groups controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.flex-box{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.flex-box-item{
+    flex-basis: 32%;
+    margin: 2px;
+}
+
+.image{
+    background: linear-gradient(to bottom, #DDEEFF, #FFF);
+    border: solid #DDEEFF;
+}
+
+.group-category{
+    font-size: 20px;
+    font-family: "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体";
+}
