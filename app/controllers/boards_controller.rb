@@ -1,6 +1,6 @@
 class BoardsController < ApplicationController
     before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
-    before_action :correct_user, only: [:edit, :update, :destroy]
+    #before_action :correct_user, only: [:edit, :update, :destroy]
 
     def new
         #グループ内投稿の新規作成フォーム（コメントではない）
@@ -34,8 +34,13 @@ class BoardsController < ApplicationController
     end
 
     def edit
-        @group = Group.find_by(id: params[:group_id])
         @board = GroupBoard.find_by(id: params[:id])
+        if current_user.id != @board.user.id or current_user.id != member.user_id
+            @group = Group.find_by(id: params[:group_id])
+            #@board = GroupBoard.find_by(id: params[:id])
+        else
+            render(root_path)
+        end
     end
 
     def update
@@ -62,9 +67,11 @@ class BoardsController < ApplicationController
         params.require(:group_board).permit(:content, :flag)
     end
 
+    #今回は使わないかも
     def correct_user
         board = GroupBoard.find_by(id: params[:id])
-        if current_user.id != board.user.id
+        member = Member.find_by(group_id: params[:group_id], flag: "admin")
+        if current_user.id != board.user.id or current_user.id != member.user_id
             redirect_to(root_path)
         end
     end
