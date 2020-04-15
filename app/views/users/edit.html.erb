@@ -33,11 +33,13 @@
 
             <div class="form-group row">
                 <div class="col-4" style="padding: 15px 0 15px 15px;">
-                    <%= image_tag(@user.image_id, size: "50x50", class: "rounded-circle") %>
+                    <%= attachment_image_tag(@user, :image, :fill, 60, 60, fallback: "112690.jpg") %>
+                    <%# image_tag(@user.image_id, size: "50x50", class: "rounded-circle") %>
                     <%= f.label(:image, "アイコンの変更", class: "form-control-label") %>
                 </div>
                 <div class="col-7" style="padding: 25px 15px 15px 0;">
-                    <%= file_field_tag(:image) %>
+                    <%# file_field_tag(:image) %>
+                    <%= f.attachment_field(:image) %>
                 </div>
             </div>
 

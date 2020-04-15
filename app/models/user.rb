@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-    # attachment :image
+    attachment :image
     has_many :members, dependent: :destroy
     has_many :group_boards, dependent: :destroy
     has_many :comments, dependent: :destroy
